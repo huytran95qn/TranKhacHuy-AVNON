@@ -11,10 +11,8 @@
           <ng-container *ngSwitchCase="TypeFormEnum.Input">
             <textarea rows="4" cols="50" matInput [formControlName]="item.controlName"></textarea>
           </ng-container>
-          <ng-container *ngSwitchDefault>
-            <!-- <textarea rows="4" cols="50" matInput [formControlName]="item.controlName"></textarea> -->
-
-            <!-- <mat-checkbox class="example-margin">Checked</mat-checkbox> -->
+          <ng-container *ngSwitchCase="TypeFormEnum.Checkbox">
+            <app-checkbox [formControlName]="item.controlName"></app-checkbox>
           </ng-container>
         </ng-container>
       </div>

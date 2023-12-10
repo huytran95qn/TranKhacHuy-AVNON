@@ -5,6 +5,7 @@ import { BuilderRoutingModule } from './builder-routing.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
 const ANGULAR_MATERIALS = [
   MatInputModule,
@@ -12,7 +13,8 @@ const ANGULAR_MATERIALS = [
 ];
 
 const COMPONENTS = [
-  BuilderComponent
+  BuilderComponent,
+  CheckboxComponent
 ]
 
 @NgModule({

@@ -30,16 +30,28 @@ export class InputFormModel implements CommonFormModel {
   }
 }
 
+export class CheckBoxOption {
+  id!: string;
+  type: 'normal' | 'other' = 'normal'
+  title!: string;
+  checked: boolean = false;
+  additionalValue: string = '';
+
+  constructor(title: string, type: 'normal' | 'other' = 'normal') {
+    this.id = uuid();
+    this.title = title;
+    this.type = type;
+  }
+}
 export class CheckBoxFormModel implements CommonFormModel {
   readonly type: TypeFormEnum = TypeFormEnum.Checkbox;
   id!: string;
   title!: string;
   required: boolean = false;
   controlName!: string;
-  value: string[] = [];
-  additionalValue?: string;
+  value: CheckBoxOption[] = [];
 
-  constructor(title: string, required: boolean, controlName: string, value?: string[]) {
+  constructor(title: string, required: boolean, controlName: string, value?: CheckBoxOption[]) {
     this.id = uuid();
     this.title = title;
     this.required = required;

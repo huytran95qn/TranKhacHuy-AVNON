@@ -1,0 +1,16 @@
+<div class="checkboxes">
+  <ul>
+    <li *ngFor="let option of options">
+      <mat-checkbox
+        [(ngModel)]="option.checked"
+        color="primary"
+        (ngModelChange)="onUpdate(option)">
+        {{option.title}}
+      </mat-checkbox>
+
+      <input *ngIf="option.type === 'other' && option.checked"
+        [(ngModel)]="option.additionalValue"
+        (ngModelChange)="onUpdateAditionValue(option)">
+    </li>
+  </ul>
+</div>

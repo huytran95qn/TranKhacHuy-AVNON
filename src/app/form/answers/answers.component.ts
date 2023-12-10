@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormService } from '../services/form.service';
-import { FormModel, TypeFormEnum } from '../models/form.model';
+import { CheckBoxOption, FormModel, TypeFormEnum } from '../models/form.model';
 
 @Component({
   selector: 'app-answers',
@@ -8,7 +8,7 @@ import { FormModel, TypeFormEnum } from '../models/form.model';
   styleUrls: ['./answers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnswersComponent implements OnInit {
+export class AnswersComponent {
   public builders: FormModel[] = [];
 
   public typeBuilder = TypeFormEnum;
@@ -19,7 +19,7 @@ export class AnswersComponent implements OnInit {
     this.builders = formService.getFormBuilders()
   }
 
-  ngOnInit() {
+  public filterOptions(options: CheckBoxOption[]): CheckBoxOption[] {
+    return options.filter(o => o.checked);
   }
-
 }

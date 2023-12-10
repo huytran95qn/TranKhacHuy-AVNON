@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControlName, FormService } from '../services/form.service';
-import { FormModel, TypeFormEnum } from '../models/form.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CheckBoxOption, FormModel, TypeFormEnum } from '../models/form.model';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -33,9 +33,25 @@ export class BuilderComponent {
     }
   }
 
-  private createFormGroup(items: FormModel[]) {
+  private createFormGroup(items: FormModel[]): void {
     items.forEach(item => {
-      const validatorOrOpts = item.required ? [Validators.required] : [];
+      let validatorOrOpts = item.required
+        ? [Validators.required]
+        : [];
+      switch (item.type) {
+        case TypeFormEnum.Input:
+          validatorOrOpts = item.required
+            ? [Validators.required]
+            : [];
+          break;
+
+        case TypeFormEnum.Checkbox:
+          validatorOrOpts = item.required
+            ? [this.validateCheckbox.bind(this)]
+            : [];
+          break;
+      }
+
       this.formGroup.addControl(
         item.controlName,
         new FormControl(item.value, validatorOrOpts)
@@ -50,7 +66,7 @@ export class BuilderComponent {
 
       this.formGroup.controls[item.controlName].valueChanges.pipe(
         debounceTime(50)
-      ).subscribe((value: string | string[]) => {
+      ).subscribe((value: string | CheckBoxOption[]) => {
         switch (item.type) {
           case TypeFormEnum.Input:
             this.formService.updateFormBuilderById(item.id, value)
@@ -62,5 +78,16 @@ export class BuilderComponent {
         }
       })
     })
+  }
+
+  private validateCheckbox(control: AbstractControl): {[key: string]: any} | null  {
+    console.log(control)
+    const items = control.value as CheckBoxOption[];
+    if(items.length > 0) {
+      return items.some(item => item.checked)
+        ? null
+        : { 'requiredCheckBox': true }
+    }
+    return null;
   }
 }

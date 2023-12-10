@@ -8,7 +8,9 @@
           {{ item.value }}
         </ng-container>
         <ng-container *ngSwitchDefault>
-          checkbox
+          <ng-container *ngTemplateOutlet="checkboxTemplate; context: {
+            options: item.value
+          }"></ng-container>
         </ng-container>
       </ng-container>
     </span>
@@ -16,3 +18,12 @@
 
   <div [routerLink]="'/form/builder'" class="answers__footer">Back to Forms Builder</div>
 </div>
+
+<ng-template #checkboxTemplate let-options="options">
+  <ul>
+    <li *ngFor="let option of filterOptions(options)">
+      <span>{{ option.title }}</span>
+      <span *ngIf="option.additionalValue"> - {{ option.additionalValue }}</span>
+    </li>
+  </ul>
+</ng-template>

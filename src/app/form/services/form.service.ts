@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormModule } from '../form.module';
-import { CheckBoxFormModel, FormModel, InputFormModel, TypeFormEnum } from '../models/form.model';
+import { CheckBoxFormModel, CheckBoxOption, FormModel, InputFormModel, TypeFormEnum } from '../models/form.model';
 
 export enum FormControlName {
   TellUs = 'TellUs',
@@ -19,8 +19,14 @@ export class FormService {
     ),
     new CheckBoxFormModel(
       'Please select the languages you know',
-      false,
-      FormControlName.Languages
+      true,
+      FormControlName.Languages,
+      [
+        new CheckBoxOption('Typescript'),
+        new CheckBoxOption('Python'),
+        new CheckBoxOption('C#'),
+        new CheckBoxOption('Other', 'other')
+      ]
     )
   ];
 
@@ -34,22 +40,11 @@ export class FormService {
 
   public updateFormBuilderById(
     id: string,
-    value: string | string[],
-    additionalValue?: string
+    value: string | CheckBoxOption[],
   ) {
     let item = this.builders.find(d => d.id === id);
     if(item?.id) {
-      switch (item.type) {
-        case TypeFormEnum.Input:
-          item.value = value;
-          break;
-
-        case TypeFormEnum.Checkbox:
-          let checkBoxItem = item as CheckBoxFormModel;
-          checkBoxItem.value = (value as string[]) || [];
-          checkBoxItem.additionalValue = additionalValue;
-          break;
-      }
+      item.value = value;
     }
 
     console.log(this.builders)
