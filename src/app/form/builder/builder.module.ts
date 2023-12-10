@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { AddNewAQuestionDialogComponent } from './dialog/add-new-a-question-dialog/add-new-a-question-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AddAnswersComponent } from './components/add-answers/add-answers.component';
 
 const ANGULAR_MATERIALS = [
   MatInputModule,
@@ -17,7 +18,8 @@ const ANGULAR_MATERIALS = [
 
 const COMPONENTS = [
   BuilderComponent,
-  CheckboxComponent
+  CheckboxComponent,
+  AddAnswersComponent
 ];
 
 const DIALOGS = [

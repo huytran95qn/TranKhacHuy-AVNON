@@ -31,9 +31,7 @@ export class BuilderComponent {
   }
 
   public goToAnswer(): void {
-    if(this.formGroup.valid) {
-      this.router.navigateByUrl('/form/answers')
-    }
+    this.router.navigateByUrl('/form/answers');
   }
 
   public addNewQuestion(): void {

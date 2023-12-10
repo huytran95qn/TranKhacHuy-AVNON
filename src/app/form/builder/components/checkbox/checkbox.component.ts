@@ -41,12 +41,14 @@ export class CheckboxComponent implements ControlValueAccessor {
       option.additionalValue = '';
     } else {
       this.onChanged(this.options);
+      this.onTouched();
     }
   }
 
   public onUpdateAditionValue(option: CheckBoxOption): void {
     if(option.additionalValue) {
       this.onChanged(this.options);
+      this.onTouched();
     }
   }
 }

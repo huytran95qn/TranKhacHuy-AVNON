@@ -19,17 +19,15 @@
         [(ngModel)]="descriptionQuestion">
     </div>
 
-    <div class="new-question__answer-option">
-      <input disabled placeholder="Add Answer Option">
-      <input disabled placeholder="Add Answer Option">
-
-      <span class="add-another-question">+ Add another answer</span>
-    </div>
+    <app-add-answers
+      [(ngModel)]="answerQuestions"
+      [disabled]="!typeQuestion || typeQuestion === typeFormEnum.Input">
+    </app-add-answers>
 
     <mat-checkbox
       color="primary"
       [(ngModel)]="hasOwnAnswer"
-      [disabled]="typeQuestion === typeFormEnum.Input">
+      [disabled]="!typeQuestion || typeQuestion === typeFormEnum.Input">
       Allow user to specify their own answer
     </mat-checkbox>
 
@@ -41,7 +39,6 @@
   </div>
 
   <button
-    [disabled]="!typeQuestion || !descriptionQuestion"
     class="new-question__footer"
     (click)="onSubmit()">Submit</button>
 </div>

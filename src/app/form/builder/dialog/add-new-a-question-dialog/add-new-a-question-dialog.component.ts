@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { InputFormModel, TypeFormEnum } from '../../../models/form.model';
+import { CheckBoxFormModel, CheckBoxOption, InputFormModel, TypeFormEnum } from '../../../models/form.model';
 
 @Component({
   selector: 'app-add-new-a-question-dialog',
@@ -19,6 +19,8 @@ export class AddNewAQuestionDialogComponent {
 
   public fieldRequired: boolean = false;
 
+  public answerQuestions: string[] = ['', ''];
+
   constructor(
     private _dialogRef: MatDialogRef<AddNewAQuestionDialogComponent>,
   ) { }
@@ -27,8 +29,25 @@ export class AddNewAQuestionDialogComponent {
     this.typeQuestion = type;
   }
 
+  public allowSubmitStatus(): boolean {
+    if(this.descriptionQuestion) {
+      switch (this.typeQuestion) {
+        case TypeFormEnum.Input:
+          return true;
+
+        case TypeFormEnum.Checkbox:
+          return this.answerQuestions.some(q => !!q);
+
+        default:
+          return false;
+      }
+    }
+
+    return false;
+  }
+
   public onSubmit(): void {
-    if(this.typeQuestion && this.descriptionQuestion) {
+    if(this.allowSubmitStatus()) {
       switch (this.typeQuestion) {
         case TypeFormEnum.Input:
           let newInputQuestion = new InputFormModel(
@@ -39,11 +58,19 @@ export class AddNewAQuestionDialogComponent {
           break;
 
         case TypeFormEnum.Checkbox:
-          // let newCheckboxQuestion = new InputFormModel(
-          //   this.descriptionQuestion,
-          //   this.fieldRequired
-          // );
-          // this._formService.addItemToFormBuilder(newInputQuestion);
+          let options = this.answerQuestions.reduce((llist, curr) => {
+            llist.push(new CheckBoxOption(curr, 'normal'))
+            return llist;
+          }, [] as CheckBoxOption[]);
+          if(this.hasOwnAnswer) {
+            options.push(new CheckBoxOption('Other', 'other'))
+          }
+          let newCheckboxQuestion = new CheckBoxFormModel(
+            this.descriptionQuestion,
+            this.fieldRequired,
+            options
+          );
+          this._dialogRef.close(newCheckboxQuestion);
           break;
       }
     }

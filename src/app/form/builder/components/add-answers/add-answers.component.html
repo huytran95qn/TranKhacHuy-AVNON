@@ -1,0 +1,12 @@
+<div class="add-answer">
+  <ng-container *ngFor="let answer of formArrayAnswers.controls; let i = index">
+    <input class="add-answer__input"
+      placeholder="Add Answer Option"
+      [formControl]="formArrayAnswers.controls[i]">
+  </ng-container>
+
+  <span
+    class="add-another-question"
+    (click)="addAnotherAnswer()">+ Add another answer
+  </span>
+</div>

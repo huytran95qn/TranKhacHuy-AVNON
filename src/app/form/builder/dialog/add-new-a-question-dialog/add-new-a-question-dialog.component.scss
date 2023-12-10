@@ -28,20 +28,6 @@
     }
   }
 
-  &__answer-option {
-    display: flex;
-    flex-direction: column;
-    input {
-      height: 28px;
-      padding: 8px;
-      margin-bottom: 8px;
-    }
-
-    .add-another-question {
-      margin-bottom: 8px;
-    }
-  }
-
   &__footer {
     height: 48px;
     width: 100%;
