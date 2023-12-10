@@ -1,3 +1,18 @@
-<p>
-  answers works!
-</p>
+<div class="answers">
+  <div class="answer-item" *ngFor="let item of builders">
+    <h3 class="answer-item__header">{{ item.title }}</h3>
+
+    <span class="answer-item__description">
+      <ng-container [ngSwitch]="item.type">
+        <ng-container *ngSwitchCase="typeBuilder.Input">
+          {{ item.value }}
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          checkbox
+        </ng-container>
+      </ng-container>
+    </span>
+  </div>
+
+  <div [routerLink]="'/form/builder'" class="answers__footer">Back to Forms Builder</div>
+</div>
