@@ -6,7 +6,7 @@ import { CheckBoxOption, FormModel, TypeFormEnum } from '../models/form.model';
   selector: 'app-answers',
   templateUrl: './answers.component.html',
   styleUrls: ['./answers.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AnswersComponent {
   public builders: FormModel[] = [];

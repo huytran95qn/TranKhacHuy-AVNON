@@ -9,21 +9,27 @@
 
         <ng-container [ngSwitch]="item.type">
           <ng-container *ngSwitchCase="TypeFormEnum.Input">
-            <textarea rows="4" cols="50" matInput [formControlName]="item.controlName"></textarea>
+            <textarea rows="4" cols="50" matInput [formControlName]="item.id"></textarea>
           </ng-container>
           <ng-container *ngSwitchCase="TypeFormEnum.Checkbox">
-            <app-checkbox [formControlName]="item.controlName"></app-checkbox>
+            <app-checkbox [formControlName]="item.id"></app-checkbox>
           </ng-container>
         </ng-container>
       </div>
     </ng-container>
   </form>
 
-  <button
-    (click)="goToAnswer()"
-    [disabled]="formGroup.invalid"
-    class="builder__footer">
-    Review my answers >
-  </button>
+  <div class="builder__footer">
+    <button
+      (click)="addNewQuestion()">
+      Add New Question
+    </button>
+
+    <button
+      (click)="goToAnswer()"
+      [disabled]="formGroup.invalid">
+      Review my answers >
+    </button>
+  </div>
 </div>
 

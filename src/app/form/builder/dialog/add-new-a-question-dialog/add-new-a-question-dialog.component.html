@@ -1,0 +1,47 @@
+<div class="new-question">
+  <div class="new-question__content">
+    <div class="new-question__types">
+      <button
+        [ngClass]="{'active': typeQuestion === typeFormEnum.Checkbox}"
+        (click)="selectType(typeFormEnum.Checkbox)">
+        Checkbox List V
+      </button>
+      <button
+        [ngClass]="{'active': typeQuestion === typeFormEnum.Input}"
+        (click)="selectType(typeFormEnum.Input)">
+        Input
+      </button>
+    </div>
+
+    <div class="new-question__question">
+      <input
+        placeholder="Type question here"
+        [(ngModel)]="descriptionQuestion">
+    </div>
+
+    <div class="new-question__answer-option">
+      <input disabled placeholder="Add Answer Option">
+      <input disabled placeholder="Add Answer Option">
+
+      <span class="add-another-question">+ Add another answer</span>
+    </div>
+
+    <mat-checkbox
+      color="primary"
+      [(ngModel)]="hasOwnAnswer"
+      [disabled]="typeQuestion === typeFormEnum.Input">
+      Allow user to specify their own answer
+    </mat-checkbox>
+
+    <mat-checkbox
+      color="primary"
+      [(ngModel)]="fieldRequired">
+      This field is required
+    </mat-checkbox>
+  </div>
+
+  <button
+    [disabled]="!typeQuestion || !descriptionQuestion"
+    class="new-question__footer"
+    (click)="onSubmit()">Submit</button>
+</div>

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControlName, FormService } from '../services/form.service';
-import { CheckBoxOption, FormModel, TypeFormEnum } from '../models/form.model';
+import { CheckBoxOption, FormModel, InputFormModel, TypeFormEnum } from '../models/form.model';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { debounceTime, filter } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AddNewAQuestionDialogComponent } from './dialog/add-new-a-question-dialog/add-new-a-question-dialog.component';
 
 @Component({
   selector: 'app-builder',
@@ -22,7 +24,8 @@ export class BuilderComponent {
 
   constructor(
     private formService: FormService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.createFormGroup(formService.getFormBuilders());
   }
@@ -33,9 +36,41 @@ export class BuilderComponent {
     }
   }
 
+  public addNewQuestion(): void {
+    const dialogRef = this.dialog.open(AddNewAQuestionDialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().pipe(
+      filter(v => !!v)
+    ).subscribe((question: InputFormModel) => {
+      this.addFormControl(question);
+      this.formGroup.controls[question.id].valueChanges.pipe(
+        debounceTime(50)
+      ).subscribe((value: string | CheckBoxOption[]) => {
+        switch (question.type) {
+          case TypeFormEnum.Input:
+            this.formService.updateFormBuilderById(question.id, value)
+            break;
+
+          case TypeFormEnum.Checkbox:
+            this.formService.updateFormBuilderById(question.id, value || [])
+            break;
+        }
+      });
+
+      this.formService.addItemToFormBuilder(question);
+    });
+  }
+
   private createFormGroup(items: FormModel[]): void {
-    items.forEach(item => {
-      let validatorOrOpts = item.required
+    items.forEach(item => this.addFormControl(item));
+    this.items = items;
+    this.updateValue();
+  }
+
+  private addFormControl(item: FormModel): void {
+    let validatorOrOpts = item.required
         ? [Validators.required]
         : [];
       switch (item.type) {
@@ -53,18 +88,15 @@ export class BuilderComponent {
       }
 
       this.formGroup.addControl(
-        item.controlName,
+        item.id,
         new FormControl(item.value, validatorOrOpts)
       )
-    });
-    this.items = items;
-    this.updateValue();
   }
 
   private updateValue(): void {
     this.items.forEach(item => {
 
-      this.formGroup.controls[item.controlName].valueChanges.pipe(
+      this.formGroup.controls[item.id].valueChanges.pipe(
         debounceTime(50)
       ).subscribe((value: string | CheckBoxOption[]) => {
         switch (item.type) {

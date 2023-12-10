@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 export enum TypeFormEnum {
-  Input,
+  Input = 1,
   Checkbox
 }
 
@@ -10,7 +10,6 @@ export interface CommonFormModel {
   type: TypeFormEnum;
   title: string;
   required: boolean;
-  controlName: string;
 }
 
 export class InputFormModel implements CommonFormModel {
@@ -18,14 +17,12 @@ export class InputFormModel implements CommonFormModel {
   id!: string;
   title!: string;
   required!: boolean;
-  controlName!: string
   value?: string;
 
-  constructor(title: string, required: boolean, controlName: string, value?: string) {
+  constructor(title: string, required: boolean, value?: string) {
     this.id = uuid();
     this.title = title;
     this.required = required;
-    this.controlName = controlName;
     this.value = value
   }
 }
@@ -48,14 +45,12 @@ export class CheckBoxFormModel implements CommonFormModel {
   id!: string;
   title!: string;
   required: boolean = false;
-  controlName!: string;
   value: CheckBoxOption[] = [];
 
-  constructor(title: string, required: boolean, controlName: string, value?: CheckBoxOption[]) {
+  constructor(title: string, required: boolean, value?: CheckBoxOption[]) {
     this.id = uuid();
     this.title = title;
     this.required = required;
-    this.controlName = controlName;
     this.value = value || [];
   }
 }

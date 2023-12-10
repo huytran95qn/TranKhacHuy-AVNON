@@ -15,12 +15,10 @@ export class FormService {
     new InputFormModel(
       'Please tell us about yourself',
       true,
-      FormControlName.TellUs
     ),
     new CheckBoxFormModel(
       'Please select the languages you know',
       true,
-      FormControlName.Languages,
       [
         new CheckBoxOption('Typescript'),
         new CheckBoxOption('Python'),
@@ -48,5 +46,11 @@ export class FormService {
     }
 
     console.log(this.builders)
+  }
+
+  public addItemToFormBuilder(
+    data: InputFormModel | CheckBoxFormModel
+  ): void {
+    this.builders.push(data);
   }
 }
